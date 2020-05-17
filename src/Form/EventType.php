@@ -13,8 +13,8 @@ class EventType extends AbstractType
     {
         $builder
             ->add('title')
-            // ->add('startDate')
-            // ->add('endDate')
+            ->add('startDate')
+            ->add('endDate')
             ->add('participants')
             ->add('place')
             ->add('description')
@@ -26,6 +26,7 @@ class EventType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Event::class,
+            'csrf_protection' => false,
         ]);
     }
 }

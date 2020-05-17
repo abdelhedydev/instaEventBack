@@ -48,4 +48,21 @@ class EventController extends FOSRestController
         }
         return $this->handleView($this->view($form->getErrors()));
     }
+
+    /**
+     * Create Event.
+     * @Rest\Delete("/event/{id}")
+     *
+     * @return Response
+     */
+    public function deleteEvent(Request $request)
+    {
+        $repository = $this->getDoctrine()->getRepository(Event::class);
+        $event = $repository->find($request->get('id'));
+        if ($event) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($event);
+            $em->flush();
+        }
+    }
 }
