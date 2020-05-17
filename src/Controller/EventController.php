@@ -51,6 +51,31 @@ class EventController extends FOSRestController
 
     /**
      * Create Event.
+     * @Rest\Put("/event/{id}")
+     *
+     * @return Response
+     */
+    public function editEvent(Request $request)
+    {
+        $repository = $this->getDoctrine()->getRepository(Event::class);
+        $event = $repository->find($request->get('id'));
+        $data = json_decode($request->getContent(), true);
+        if ($event) {
+            $em = $this->getDoctrine()->getManager();
+            $event->setTitle($data['title']);
+            $event->setStartDate($data['startDate']);
+            $event->setEndDate($data['endDate']);
+            $event->setParticipants($data['participants']);
+            $event->setPlace($data['place']);
+            $event->setDescription($data['description']);
+            $event->setCategory($data['category']);
+            $em->flush();
+            return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_OK));
+        }
+    }
+
+    /**
+     * Create Event.
      * @Rest\Delete("/event/{id}")
      *
      * @return Response
